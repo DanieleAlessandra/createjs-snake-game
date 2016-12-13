@@ -2,7 +2,15 @@
 (function () {
     "use strict";
     
-    
+    /**
+     * Il protagonista del gioco
+     *
+     * @class Player
+     * @param {number} initLength - La lunghezza iniziale del serpente
+     * @param {string} initDir - La direzione iniziale del serpente [N, E, S, W]
+     * @param {number} initX - La coordinata orizzontale iniziale del serpente sulla griglia
+     * @param {number} initY - La coordinata verticale iniziale del serpente sulla griglia
+     */
     function Player(initLength, initDir, initX, initY) {
         this.Container_constructor();
         
@@ -15,6 +23,12 @@
     }
     var prototype = createjs.extend(Player, createjs.Container);
     
+    /**
+     * Cambia la direzione del serpente
+     *
+     * @method changeDirection
+     * @param {string} direction - La direzione del serpente [N, E, S, W]
+     */
     prototype.changeDirection = function (direction) {
         var directions = ['N', 'E', 'S', 'W'];
         if (directions.indexOf(direction) >= 0) {
@@ -22,6 +36,11 @@
         }
     };
     
+    /**
+     * Muove il serpente, viene richiatata dal Ticker di Game.js
+     *
+     * @method enterFrame
+     */
     prototype.enterFrame = function () {
         if (this.squares.length <= 0) {
             return false;
@@ -63,10 +82,22 @@
         }
     };
     
+    /**
+     * Restituisce un riferimento all’elemento frontale del serpente, la sua Testa
+     *
+     * @method getHead
+     */
     prototype.getHead = function () {
         return this.squares[this.squares.length - 1];
     };
     
+    /**
+     * Verifica se la Testa del serpente ha urtato un elemento
+     *
+     * @method hitHead
+     * @param {DisplayObject} element - L’elemento da verificare
+     * @return {Bolean}
+     */
     prototype.hitHead = function (element) {
         var head = this.getHead();
         if (this.squares.length && head.x === element.x && head.y === element.y) {
@@ -75,6 +106,13 @@
         return false;
     }
     
+    /**
+     * Verifica se la Testa del serpente ha urtato la sua propria coda
+     *
+     * @method hitTail
+     * @param {DisplayObject} element - L’elemento da verificare
+     * @return {Bolean}
+     */
     prototype.hitTail = function (element) {
         var i,
             tailElement;
@@ -87,6 +125,11 @@
         return false;
     };
     
+    /**
+     * Reinizializza tutte le variabili
+     *
+     * @method reset
+     */
     prototype.reset = function() {
         this.removeAllChildren();
         
